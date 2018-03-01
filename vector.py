@@ -79,3 +79,9 @@ class Vector(object):
     def is_orthogonal_to(self, v, tolerance = 1e-10):
         return abs(self.dot(v)) < tolerance
 
+    def parallel_to(self, b):
+        b_norm = b.normalized()
+        return b_norm.times_scalar(self.dot(b_norm))
+
+    def orthogonal_to(self, b):
+        return self.minus(self.parallel_to(b))

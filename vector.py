@@ -5,6 +5,7 @@ getcontext().prec = 30
 
 class Vector(object):
     CANNOT_NORMALIZE_ZERO_VECTOR_MSG = 'Cannot normalize the zero vector'
+    TOLERANCE = 1e-10
 
     def __init__(self, coordinates):
         try:
@@ -18,7 +19,7 @@ class Vector(object):
             raise TypeError('The coordinates must be an iterable')
     
     def __str__(self):
-        return 'Vector {}'.format(['{:.3f}'.format(x) for x in self.coordinates])
+        return 'Vector: {}'.format(self.coordinates)
 
     def __eq__(self, v):
         return self.coordinates == v.coordinates
@@ -53,10 +54,10 @@ class Vector(object):
         try:
             u1 = self.normalized()
             u2 = v.normalized()
-            angle_in_radians = acos(u1.dot(u2))
+            angle_in_radians = Decimal(acos(u1.dot(u2)))
 
             if in_degrees:
-                degrees_per_radian = Decimal('180') / pi
+                degrees_per_radian = Decimal('180') / Decimal(pi)
                 return angle_in_radians * degrees_per_radian
             else:
                 return angle_in_radians

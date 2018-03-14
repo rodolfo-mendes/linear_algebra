@@ -11,7 +11,7 @@ class Vector(object):
         try:
             if not coordinates:
                 raise ValueError
-            self.coordinates = tuple([Decimal(x) for x in coordinates])
+            self.coordinates = tuple([Decimal(str(x)) for x in coordinates])
             self.dimension = len(coordinates)
         except ValueError:
             raise ValueError('The coordinates must be nonempty')
@@ -24,6 +24,16 @@ class Vector(object):
     def __eq__(self, v):
         return self.coordinates == v.coordinates
 
+    def __iter__(self):
+        return iter(self.coordinates)
+
+    def __getitem__(self, i):
+        return self.coordinates[i]
+
+
+    def __setitem__(self, i, x):
+        self.coordinates[i] = x
+
     def plus(self, v):
         new_coordinates = [x + y for x,y in zip(self.coordinates, v.coordinates)]
         return Vector(new_coordinates)
@@ -33,12 +43,12 @@ class Vector(object):
         return Vector(new_coordinates)
 
     def times_scalar(self, c):
-        new_coordinates = [x*Decimal(c) for x in self.coordinates]
+        new_coordinates = [x*Decimal(str(c)) for x in self.coordinates]
         return Vector(new_coordinates)
 
     def magnitude(self):
         coordinates_squared = [x**2 for x in self.coordinates]
-        return Decimal(sqrt(sum(coordinates_squared)))
+        return Decimal(str(sqrt(sum(coordinates_squared))))
 
     def normalized(self):
         try:
@@ -48,7 +58,8 @@ class Vector(object):
             raise Exception('Cannot normalize the zero vector')
 
     def dot(self, v):
-        return Decimal(sum([x*y for x,y in zip(self.coordinates, v.coordinates)]))
+        dot_product = sum([x*y for x,y in zip(self.coordinates, v.coordinates)])
+        return round(Decimal(dot_product), 3)
 
     def angle_with(self, v, in_degrees = False):
         try:

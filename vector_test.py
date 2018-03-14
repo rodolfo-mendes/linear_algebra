@@ -30,6 +30,8 @@ def test_normalized():
     print( Vector([3.0, 4.0]).normalized() )
     assert Vector([3.0, 4.0]).normalized() == Vector(['0.6', '0.8'])
 
+def test_angle_with():
+    assert Vector([2.5, 3.5]).angle_with(Vector([25, 35])) == 0.0
+
 def test_parallel_vector():
-    print(Vector([2.5, 3.5]).angle_with(Vector([25, 35]), in_degrees=True))
     assert Vector([2.5, 3.5]).is_parallel(Vector([25, 35]))
